@@ -1,0 +1,71 @@
+<xs:schema version="1.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified">
+           <xs:include schemaLocation="buildings.xsd" />
+
+           <xs:element name="SSN">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:pattern value="[0-9]{3}-[0-9]{2}-[0-9]{4}" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:element>
+
+        <xs:element name="Gender">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="M" />
+                    <xs:enumeration value="F" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:element>
+
+        <xs:element name="Type">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="Master" />
+                    <xs:enumeration value="Phd" />
+                    <xs:enumeration value="Both" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:element>
+
+        <xs:element name="Phone">
+            <xs:simpleType>
+                <xs:restriction base="string">
+                    <xs:pattern value="\d{3}\-[0-9|\-]{7,11}" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:element>
+
+        <xs:element name="Student">
+            <xs:complexType>
+                <xs:sequence>
+                    <xs:element ref="SSN" />
+                    <xs:element name="Name" type="xs:string" />
+                    <xs:element name="DOB" type="xs:date" />
+                    <xs:element name="Gender" ref="Gender" />
+                    <xs:element ref="Type" />
+                    <xs:element ref="BuildingCode" minOccurs="0" maxOccurs="unbounded" />
+                    <xs:element ref="Phone" maxOccurs="unbounded" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:key name="PK_SSN">
+                <xs:selector xpath=".//Student" />
+                <xs:field xpath="SSN" />
+            </xs:key>
+        </xs:element>
+
+        <xs:element name="Students">
+            <xs:complexType>
+                <xs:sequence>
+                    <xs:element ref="Student" maxOccurs="unbounded" />
+                </xs:sequence>
+            </xs:complexType>
+        </xs:element>
+
+    </xs:schema>
+
+
+
+
